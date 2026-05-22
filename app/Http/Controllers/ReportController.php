@@ -12,17 +12,26 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         // Hitung statistik per RT untuk Modul 10
-        $rtStats = Warga::join('kartu_keluarga', 'warga.kartu_keluarga_id', '=', 'kartu_keluarga.id')
+        $query = Warga::join('kartu_keluarga', 'warga.kartu_keluarga_id', '=', 'kartu_keluarga.id')
             ->selectRaw('kartu_keluarga.rt, count(warga.id) as total_warga, sum(case when warga.jenis_kelamin = "Laki-laki" then 1 else 0 end) as total_l, sum(case when warga.jenis_kelamin = "Perempuan" then 1 else 0 end) as total_p')
             ->groupBy('kartu_keluarga.rt')
-            ->orderBy('kartu_keluarga.rt')
-            ->get();
+            ->orderBy('kartu_keluarga.rt');
+
+        // Ketua RT hanya bisa melihat statistik RT miliknya sendiri
+        if (auth()->user()->role === 'Ketua RT') {
+            $query->where('kartu_keluarga.rt', auth()->user()->rt_rw);
+        }
+
+        $rtStats = $query->get();
 
         return view('laporan.index', compact('rtStats'));
     }
 
     public function downloadTemplate()
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengunduh template impor.');
+        }
         $headers = [
             'NIK', 'Nama Lengkap', 'Nomor KK', 'Jenis Kelamin', 'Tempat Lahir', 
             'Tanggal Lahir', 'Agama', 'Pendidikan', 'Pekerjaan', 
@@ -49,6 +58,9 @@ class ReportController extends Controller
 
     public function previewImport(Request $request)
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengimpor data.');
+        }
         $request->validate([
             'file_csv' => 'required|file|mimes:csv,txt|max:2048',
         ]);
@@ -147,6 +159,9 @@ class ReportController extends Controller
 
     public function importWarga()
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengimpor data.');
+        }
         $rows = session('preview_import_data');
 
         if (!$rows) {
@@ -188,12 +203,17 @@ class ReportController extends Controller
     {
         $query = Warga::with('kartuKeluarga');
 
-        // Filter RT/RW
-        if ($request->filled('rt')) {
-            $query->whereHas('kartuKeluarga', fn($q) => $q->where('rt', $request->rt));
-        }
-        if ($request->filled('rw')) {
-            $query->whereHas('kartuKeluarga', fn($q) => $q->where('rw', $request->rw));
+        // Ketua RT hanya bisa mengekspor warga dari RT miliknya sendiri
+        if (auth()->user()->role === 'Ketua RT') {
+            $query->whereHas('kartuKeluarga', fn($q) => $q->where('rt', auth()->user()->rt_rw));
+        } else {
+            // Filter RT/RW
+            if ($request->filled('rt')) {
+                $query->whereHas('kartuKeluarga', fn($q) => $q->where('rt', $request->rt));
+            }
+            if ($request->filled('rw')) {
+                $query->whereHas('kartuKeluarga', fn($q) => $q->where('rw', $request->rw));
+            }
         }
         // Filter Jenis Kelamin
         if ($request->filled('jenis_kelamin')) {

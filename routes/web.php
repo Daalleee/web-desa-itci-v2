@@ -41,14 +41,18 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
         Route::resource('surat', LetterController::class)->except(['edit', 'update']);
         
         // 6. Modul Bantuan Sosial
-        Route::resource('bantuan', SocialAssistanceController::class);
-        Route::post('bantuan/{bantuan}/tambah-penerima', [SocialAssistanceController::class, 'addRecipient'])->name('bantuan.addRecipient');
-        Route::delete('bantuan/{bantuan}/hapus-penerima/{wargaId}', [SocialAssistanceController::class, 'removeRecipient'])->name('bantuan.removeRecipient');
+        Route::middleware(['role:Operator Desa,Kepala Desa'])->group(function() {
+            Route::resource('bantuan', SocialAssistanceController::class);
+            Route::post('bantuan/{bantuan}/tambah-penerima', [SocialAssistanceController::class, 'addRecipient'])->name('bantuan.addRecipient');
+            Route::delete('bantuan/{bantuan}/hapus-penerima/{wargaId}', [SocialAssistanceController::class, 'removeRecipient'])->name('bantuan.removeRecipient');
+        });
         
         // 8. Modul Arsip Dokumen
-        Route::get('dokumen', [DocumentController::class, 'index'])->name('dokumen.index');
-        Route::post('dokumen', [DocumentController::class, 'store'])->name('dokumen.store');
-        Route::delete('dokumen/{id}', [DocumentController::class, 'destroy'])->name('dokumen.destroy');
+        Route::middleware(['role:Operator Desa'])->group(function() {
+            Route::get('dokumen', [DocumentController::class, 'index'])->name('dokumen.index');
+            Route::post('dokumen', [DocumentController::class, 'store'])->name('dokumen.store');
+            Route::delete('dokumen/{id}', [DocumentController::class, 'destroy'])->name('dokumen.destroy');
+        });
         
         // 10. Modul Laporan & 3. Import & 4. Export
         Route::get('laporan', [ReportController::class, 'index'])->name('laporan.index');

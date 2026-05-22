@@ -14,6 +14,11 @@ class WargaController extends Controller
     {
         $query = Warga::with('kartuKeluarga');
 
+        // Ketua RT hanya bisa melihat warga dari RT miliknya
+        if (auth()->user()->role === 'Ketua RT') {
+            $query->whereHas('kartuKeluarga', fn($q) => $q->where('rt', auth()->user()->rt_rw));
+        }
+
         // Search Realtime (NIK/Nama)
         if ($request->filled('search')) {
             $search = $request->search;
@@ -53,12 +58,18 @@ class WargaController extends Controller
 
     public function create()
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk menambah data warga.');
+        }
         $kartuKeluarga = KartuKeluarga::all();
         return view('warga.create', compact('kartuKeluarga'));
     }
 
     public function store(Request $request)
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk menambah data warga.');
+        }
         $validated = $request->validate([
             'nik' => 'required|digits:16|unique:warga,nik',
             'nama_lengkap' => 'required|string|max:255',
@@ -115,18 +126,28 @@ class WargaController extends Controller
 
     public function show(Warga $warga)
     {
+        // Ketua RT hanya bisa melihat detail warga dari RT miliknya
+        if (auth()->user()->role === 'Ketua RT' && (!$warga->kartuKeluarga || $warga->kartuKeluarga->rt !== auth()->user()->rt_rw)) {
+            abort(403, 'Anda tidak memiliki hak akses untuk data warga di luar RT Anda.');
+        }
         $warga->load(['kartuKeluarga', 'surat', 'bantuanSosial', 'arsipDokumen']);
         return view('warga.show', compact('warga'));
     }
 
     public function edit(Warga $warga)
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengedit data warga.');
+        }
         $kartuKeluarga = KartuKeluarga::all();
         return view('warga.edit', compact('warga', 'kartuKeluarga'));
     }
 
     public function update(Request $request, Warga $warga)
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk mengedit data warga.');
+        }
         $validated = $request->validate([
             'nik' => 'required|digits:16|unique:warga,nik,' . $warga->id,
             'nama_lengkap' => 'required|string|max:255',
@@ -181,6 +202,9 @@ class WargaController extends Controller
 
     public function destroy(Warga $warga)
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk menghapus data warga.');
+        }
         LogAktivitas::catat("Menghapus data warga (soft delete): {$warga->nama_lengkap} (NIK: {$warga->nik})");
         $warga->delete();
         return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus (Soft Delete)');

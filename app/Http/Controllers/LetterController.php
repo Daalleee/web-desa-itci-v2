@@ -13,6 +13,11 @@ class LetterController extends Controller
     {
         $query = Surat::with('warga');
 
+        // Ketua RT hanya bisa melihat riwayat surat warga dari RT miliknya
+        if (auth()->user()->role === 'Ketua RT') {
+            $query->whereHas('warga.kartuKeluarga', fn($q) => $q->where('rt', auth()->user()->rt_rw));
+        }
+
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -32,6 +37,9 @@ class LetterController extends Controller
 
     public function create(Request $request)
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa', 'Kepala Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk membuat surat.');
+        }
         $wargaList = Warga::where('status_warga', 'Aktif')->get();
         $selectedWarga = null;
 
@@ -44,6 +52,9 @@ class LetterController extends Controller
 
     public function store(Request $request)
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa', 'Kepala Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk membuat surat.');
+        }
         $validated = $request->validate([
             'warga_id' => 'required|exists:warga,id',
             'jenis_surat' => 'required|in:Domisili,Kelahiran,Kematian,Usaha,Tidak Mampu,Pindah',
@@ -100,6 +111,11 @@ class LetterController extends Controller
     {
         $surat = Surat::with('warga.kartuKeluarga')->findOrFail($id);
         
+        // Ketua RT hanya bisa melihat detail surat warga dari RT miliknya
+        if (auth()->user()->role === 'Ketua RT' && (!$surat->warga || !$surat->warga->kartuKeluarga || $surat->warga->kartuKeluarga->rt !== auth()->user()->rt_rw)) {
+            abort(403, 'Anda tidak memiliki hak akses untuk melihat surat di luar RT Anda.');
+        }
+        
         // Link verifikasi untuk QR Code
         $verificationUrl = route('surat.verify', $surat->id);
         
@@ -115,6 +131,9 @@ class LetterController extends Controller
 
     public function destroy($id)
     {
+        if (!in_array(auth()->user()->role, ['Super Admin', 'Operator Desa', 'Kepala Desa'])) {
+            abort(403, 'Anda tidak memiliki hak akses untuk menghapus surat.');
+        }
         $surat = Surat::findOrFail($id);
         LogAktivitas::catat("Menghapus Surat (No. Surat: {$surat->nomor_surat})");
         $surat->delete();

@@ -59,101 +59,130 @@
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased">
-    <div class="flex h-screen overflow-hidden" x-data="{ sidebarOpen: false }">
+    <div class="flex h-screen overflow-hidden" 
+         x-data="{ 
+             sidebarOpen: localStorage.getItem('sidebarOpen') !== null ? localStorage.getItem('sidebarOpen') === 'true' : window.innerWidth >= 1024,
+             toggleSidebar() {
+                 this.sidebarOpen = !this.sidebarOpen;
+                 localStorage.setItem('sidebarOpen', this.sidebarOpen);
+             }
+         }">
         
         <!-- Sidebar (no-print) -->
-        <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" 
-               class="fixed inset-y-0 left-0 z-50 w-64 bg-emerald-950 text-emerald-100 flex flex-col flex-shrink-0 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static no-print shadow-xl">
+        <aside :class="sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0 lg:w-20'" 
+               class="fixed inset-y-0 left-0 z-50 bg-emerald-950 text-emerald-100 flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out lg:static no-print shadow-xl">
             
             <!-- Logo / Brand -->
-            <div class="h-16 flex items-center px-6 bg-emerald-900 border-b border-emerald-800">
-                <i class="fa-solid fa-hotel text-2xl text-emerald-400 mr-3"></i>
-                <div>
-                    <h1 class="font-bold text-white leading-tight tracking-wide">DESA ITCI</h1>
-                    <span class="text-xs text-emerald-400 font-medium">Administrasi Digital</span>
+            <div class="h-16 flex items-center bg-emerald-900 border-b border-emerald-800 transition-all duration-300 ease-in-out" :class="sidebarOpen ? 'px-6 justify-start' : 'px-0 justify-center'">
+                <i class="fa-solid fa-hotel text-2xl text-emerald-400" :class="sidebarOpen ? 'mr-3' : ''"></i>
+                <div x-show="sidebarOpen" x-transition class="overflow-hidden">
+                    <h1 class="font-bold text-white leading-tight tracking-wide truncate">DESA ITCI</h1>
+                    <span class="text-xs text-emerald-400 font-medium truncate block">Administrasi Digital</span>
                 </div>
             </div>
             
             <!-- Navigation Links -->
-            <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+            <nav class="flex-1 overflow-y-auto py-6 space-y-1 transition-all duration-300 ease-in-out" :class="sidebarOpen ? 'px-4' : 'px-2'">
                 @php
                     $role = auth()->user()->role;
                     $route = Route::currentRouteName();
                 @endphp
 
                 <!-- Dashboard (All) -->
-                <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ $route == 'dashboard' ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                    <i class="fa-solid fa-chart-pie w-5 mr-3 text-lg {{ $route == 'dashboard' ? 'text-white' : 'text-emerald-400' }}"></i>
-                    Dashboard
+                <a href="{{ route('dashboard') }}" 
+                   class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ $route == 'dashboard' ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                   :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                    <i class="fa-solid fa-house text-lg {{ $route == 'dashboard' ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                    <span x-show="sidebarOpen" x-transition class="truncate">Dashboard</span>
                 </a>
 
-                @if($role !== 'Super Admin')
-                    <!-- Data Warga -->
-                    <a href="{{ route('warga.index') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ str_starts_with($route, 'warga.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                        <i class="fa-solid fa-users w-5 mr-3 text-lg {{ str_starts_with($route, 'warga.') ? 'text-white' : 'text-emerald-400' }}"></i>
-                        Data Warga
+                <!-- Data Warga (Super Admin, Operator Desa, Kepala Desa, Ketua RT) -->
+                @if(in_array($role, ['Super Admin', 'Operator Desa', 'Kepala Desa', 'Ketua RT']))
+                    <a href="{{ route('warga.index') }}" 
+                       class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'warga.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                        <i class="fa-solid fa-users text-lg {{ str_starts_with($route, 'warga.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Data Warga</span>
                     </a>
+                @endif
 
-                    <!-- Kartu Keluarga -->
-                    <a href="{{ route('kartu-keluarga.index') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ str_starts_with($route, 'kartu-keluarga.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                        <i class="fa-solid fa-address-card w-5 mr-3 text-lg {{ str_starts_with($route, 'kartu-keluarga.') ? 'text-white' : 'text-emerald-400' }}"></i>
-                        Kartu Keluarga
+                <!-- Kartu Keluarga (Super Admin, Operator Desa, Kepala Desa, Ketua RT) -->
+                @if(in_array($role, ['Super Admin', 'Operator Desa', 'Kepala Desa', 'Ketua RT']))
+                    <a href="{{ route('kartu-keluarga.index') }}" 
+                       class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'kartu-keluarga.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                        <i class="fa-solid fa-address-card text-lg {{ str_starts_with($route, 'kartu-keluarga.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Kartu Keluarga</span>
                     </a>
+                @endif
 
-                    <!-- Surat Otomatis (Operator, Kades) -->
-                    @if(in_array($role, ['Operator Desa', 'Kepala Desa']))
-                        <a href="{{ route('surat.index') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ str_starts_with($route, 'surat.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                            <i class="fa-solid fa-envelope-open-text w-5 mr-3 text-lg {{ str_starts_with($route, 'surat.') ? 'text-white' : 'text-emerald-400' }}"></i>
-                            Surat Otomatis
-                        </a>
-                    @endif
+                <!-- Surat Otomatis (Super Admin, Operator Desa, Kepala Desa) -->
+                @if(in_array($role, ['Super Admin', 'Operator Desa', 'Kepala Desa']))
+                    <a href="{{ route('surat.index') }}" 
+                       class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'surat.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                        <i class="fa-solid fa-envelope-open-text text-lg {{ str_starts_with($route, 'surat.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Surat Otomatis</span>
+                    </a>
+                @endif
 
-                    <!-- Bantuan Sosial (Operator, Kades) -->
-                    @if(in_array($role, ['Operator Desa', 'Kepala Desa']))
-                        <a href="{{ route('bantuan.index') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ str_starts_with($route, 'bantuan.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                            <i class="fa-solid fa-hand-holding-dollar w-5 mr-3 text-lg {{ str_starts_with($route, 'bantuan.') ? 'text-white' : 'text-emerald-400' }}"></i>
-                            Bantuan Sosial
-                        </a>
-                    @endif
+                <!-- Bantuan Sosial (Super Admin, Operator Desa, Kepala Desa) -->
+                @if(in_array($role, ['Super Admin', 'Operator Desa', 'Kepala Desa']))
+                    <a href="{{ route('bantuan.index') }}" 
+                       class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'bantuan.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                        <i class="fa-solid fa-hand-holding-dollar text-lg {{ str_starts_with($route, 'bantuan.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Bantuan Sosial</span>
+                    </a>
+                @endif
 
-                    <!-- Arsip Dokumen (Operator) -->
-                    @if($role === 'Operator Desa')
-                        <a href="{{ route('dokumen.index') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ $route == 'dokumen.index' ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                            <i class="fa-solid fa-folder-open w-5 mr-3 text-lg {{ $route == 'dokumen.index' ? 'text-white' : 'text-emerald-400' }}"></i>
-                            Arsip Dokumen
-                        </a>
-                    @endif
+                <!-- Arsip Dokumen (Super Admin, Operator Desa) -->
+                @if(in_array($role, ['Super Admin', 'Operator Desa']))
+                    <a href="{{ route('dokumen.index') }}" 
+                       class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ $route == 'dokumen.index' ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                        <i class="fa-solid fa-folder-open text-lg {{ $route == 'dokumen.index' ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Arsip Dokumen</span>
+                    </a>
+                @endif
 
-                    <!-- Laporan -->
-                    <a href="{{ route('laporan.index') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ str_starts_with($route, 'laporan.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                        <i class="fa-solid fa-file-invoice w-5 mr-3 text-lg {{ str_starts_with($route, 'laporan.') ? 'text-white' : 'text-emerald-400' }}"></i>
-                        Laporan & Ekspor
+                <!-- Laporan & Ekspor (Super Admin, Operator Desa, Kepala Desa, Ketua RT) -->
+                @if(in_array($role, ['Super Admin', 'Operator Desa', 'Kepala Desa', 'Ketua RT']))
+                    <a href="{{ route('laporan.index') }}" 
+                       class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'laporan.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                        <i class="fa-solid fa-file-invoice text-lg {{ str_starts_with($route, 'laporan.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Laporan & Ekspor</span>
                     </a>
                 @endif
 
                 <!-- Super Admin Menu -->
                 @if($role === 'Super Admin')
-                    <div class="pt-4 pb-2 border-t border-emerald-900">
-                        <span class="text-xs uppercase font-bold text-emerald-500 px-4">Super Admin</span>
+                    <div class="pt-4 pb-2 border-t border-emerald-900" :class="sidebarOpen ? 'px-4' : 'px-0'">
+                        <span x-show="sidebarOpen" x-transition class="text-xs uppercase font-bold text-emerald-500">Super Admin</span>
                     </div>
 
-                    <a href="{{ route('users.index') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ str_starts_with($route, 'users.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                        <i class="fa-solid fa-users-gear w-5 mr-3 text-lg {{ str_starts_with($route, 'users.') ? 'text-white' : 'text-emerald-400' }}"></i>
-                        Kelola Pengguna
+                    <a href="{{ route('users.index') }}" 
+                       class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'users.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                        <i class="fa-solid fa-users-gear text-lg {{ str_starts_with($route, 'users.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Kelola Pengguna</span>
                     </a>
 
-                    <a href="{{ route('backup.index') }}" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-150 {{ str_starts_with($route, 'backup.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}">
-                        <i class="fa-solid fa-database w-5 mr-3 text-lg {{ str_starts_with($route, 'backup.') ? 'text-white' : 'text-emerald-400' }}"></i>
-                        Backup Sistem
+                    <a href="{{ route('backup.index') }}" 
+                       class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'backup.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                        <i class="fa-solid fa-database text-lg {{ str_starts_with($route, 'backup.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Backup Sistem</span>
                     </a>
                 @endif
             </nav>
             
             <!-- User Footer Panel -->
-            <div class="p-4 border-t border-emerald-900 bg-emerald-950/80">
-                <div class="flex items-center">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=10b981&color=fff" class="w-10 h-10 rounded-full ring-2 ring-emerald-500 shadow" alt="Avatar">
-                    <div class="ml-3 overflow-hidden">
+            <div class="p-4 border-t border-emerald-900 bg-emerald-950/80 transition-all duration-300" :class="sidebarOpen ? 'px-4' : 'px-2'">
+                <div class="flex items-center" :class="sidebarOpen ? 'justify-start' : 'justify-center'">
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=10b981&color=fff" class="w-10 h-10 rounded-full ring-2 ring-emerald-500 shadow flex-shrink-0" alt="Avatar">
+                    <div class="ml-3 overflow-hidden" x-show="sidebarOpen" x-transition>
                         <h4 class="text-sm font-bold text-white truncate">{{ auth()->user()->name }}</h4>
                         <span class="text-xs text-emerald-400 truncate block">{{ auth()->user()->role }}</span>
                     </div>
@@ -161,9 +190,9 @@
                 <!-- Logout Form -->
                 <form action="{{ route('logout') }}" method="POST" class="mt-4">
                     @csrf
-                    <button type="submit" class="w-full flex items-center justify-center px-4 py-2 bg-emerald-900/40 hover:bg-red-800/80 hover:text-white text-emerald-300 rounded-lg text-sm font-medium transition-all duration-150">
-                        <i class="fa-solid fa-sign-out-alt mr-2"></i>
-                        Keluar
+                    <button type="submit" class="w-full flex items-center justify-center py-2 bg-emerald-900/40 hover:bg-red-800/80 hover:text-white text-emerald-300 rounded-lg text-sm font-medium transition-all duration-150" :class="sidebarOpen ? 'px-4' : 'px-0'">
+                        <i class="fa-solid fa-sign-out-alt text-base" :class="sidebarOpen ? 'mr-2' : ''"></i>
+                        <span x-show="sidebarOpen" x-transition class="truncate">Keluar</span>
                     </button>
                 </form>
             </div>
@@ -177,8 +206,8 @@
             
             <!-- Header (no-print) -->
             <header class="h-16 bg-white shadow-sm flex items-center justify-between px-6 lg:px-8 border-b border-slate-100 flex-shrink-0 no-print">
-                <!-- Hamburger Menu Mobile -->
-                <button @click="sidebarOpen = true" class="text-slate-500 hover:text-slate-700 lg:hidden p-2 rounded focus:outline-none">
+                <!-- Hamburger Menu Mobile & Desktop -->
+                <button @click="toggleSidebar()" class="text-slate-500 hover:text-slate-700 p-2 rounded focus:outline-none transition-colors duration-150">
                     <i class="fa-solid fa-bars text-xl"></i>
                 </button>
                 
