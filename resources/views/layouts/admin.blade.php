@@ -91,7 +91,7 @@
                 <!-- Dashboard (All) -->
                 <a href="{{ route('dashboard') }}" 
                    class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ $route == 'dashboard' ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
-                   :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                   :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'" title="Dashboard">
                     <i class="fa-solid fa-house text-lg {{ $route == 'dashboard' ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
                     <span x-show="sidebarOpen" x-transition class="truncate">Dashboard</span>
                 </a>
@@ -100,7 +100,7 @@
                 @if(in_array($role, ['Super Admin', 'Operator Desa', 'Kepala Desa', 'Ketua RT']))
                     <a href="{{ route('warga.index') }}" 
                        class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'warga.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
-                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'" title="Data Warga">
                         <i class="fa-solid fa-users text-lg {{ str_starts_with($route, 'warga.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
                         <span x-show="sidebarOpen" x-transition class="truncate">Data Warga</span>
                     </a>
@@ -110,7 +110,7 @@
                 @if(in_array($role, ['Super Admin', 'Operator Desa', 'Kepala Desa', 'Ketua RT']))
                     <a href="{{ route('kartu-keluarga.index') }}" 
                        class="flex items-center py-3 rounded-lg text-sm font-medium transition-all duration-150 {{ str_starts_with($route, 'kartu-keluarga.') ? 'bg-emerald-800 text-white shadow-md' : 'hover:bg-emerald-900/60 hover:text-white' }}"
-                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'">
+                       :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'" title="Kartu Keluarga">
                         <i class="fa-solid fa-address-card text-lg {{ str_starts_with($route, 'kartu-keluarga.') ? 'text-white' : 'text-emerald-400' }}" :class="sidebarOpen ? 'w-5 mr-3' : 'w-6 text-center'"></i>
                         <span x-show="sidebarOpen" x-transition class="truncate">Kartu Keluarga</span>
                     </a>
