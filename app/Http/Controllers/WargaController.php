@@ -90,7 +90,7 @@ class WargaController extends Controller
             'berkas_kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->all();
+        $data = $validated;
 
         // Handle File Uploads
         if ($request->hasFile('foto')) {
@@ -168,7 +168,7 @@ class WargaController extends Controller
             'berkas_kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->all();
+        $data = $validated;
 
         // Handle File Uploads and Delete old files if replaced
         foreach (['foto', 'berkas_ktp', 'berkas_kk'] as $field) {

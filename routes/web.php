@@ -11,6 +11,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\SettingsController;
 
 // Rute Publik & Autentikasi
 Route::get('/', function () {
@@ -29,6 +30,9 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     
     // Dashboard Utama
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Pengaturan Sistem & Tampilan (Bisa diakses semua pengguna terautentikasi)
+    Route::get('pengaturan', [SettingsController::class, 'index'])->name('pengaturan');
 
     // 1. Modul Data Warga (Operator & Admin)
     Route::middleware(['role:Operator Desa,Kepala Desa,Ketua RT'])->group(function() {
