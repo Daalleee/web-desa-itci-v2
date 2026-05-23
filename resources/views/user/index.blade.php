@@ -6,7 +6,7 @@
 <div class="max-w-7xl mx-auto space-y-6">
     <div class="flex items-center justify-between">
         <h2 class="text-2xl font-bold text-slate-800">Manajemen Pengguna</h2>
-        <a href="{{ route('users.create') }}" class="px-5 py-2.5 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold transition">
+        <a href="{{ route('users.create') }}" class="px-5 py-2.5 bg-green-700 hover:bg-green-600 text-white rounded-xl text-sm font-semibold transition">
             <i class="fa-solid fa-plus"></i> Tambah Pengguna
         </a>
     </div>
@@ -43,7 +43,7 @@
                             </td>
                             <td class="py-4 px-6 text-right">
                                 <div class="inline-flex rounded-lg shadow-sm">
-                                    <a href="{{ route('users.edit', $user) }}" class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-l-lg border border-slate-200 text-xs font-semibold transition">
+                                    <a href="{{ route('users.edit', $user) }}" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-l-lg border border-slate-200 text-xs font-semibold transition">
                                         <i class="fa-solid fa-pen"></i> Edit
                                     </a>
                                     <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin hapus pengguna ini?');">

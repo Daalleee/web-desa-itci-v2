@@ -76,7 +76,7 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="w-full py-2.5 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold transition shadow-lg shadow-emerald-800/10 flex items-center justify-center gap-2">
+                <button type="submit" class="w-full py-2.5 bg-green-700 hover:bg-green-600 text-white rounded-xl text-sm font-semibold transition shadow-lg shadow-green-700/10 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-file-arrow-up"></i> Unggah Dokumen
                 </button>
             </form>

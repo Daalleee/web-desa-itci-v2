@@ -64,6 +64,19 @@
                             200: 'var(--color-primary-200)',
                             100: 'var(--color-primary-100)',
                             50: 'var(--color-primary-50)',
+                        },
+                        emerald: {
+                            950: 'var(--color-primary-950)',
+                            900: 'var(--color-primary-900)',
+                            800: 'var(--color-primary-800)',
+                            700: 'var(--color-primary-700)',
+                            600: 'var(--color-primary-600)',
+                            500: 'var(--color-primary-500)',
+                            400: 'var(--color-primary-400)',
+                            300: 'var(--color-primary-300)',
+                            200: 'var(--color-primary-200)',
+                            100: 'var(--color-primary-100)',
+                            50: 'var(--color-primary-50)',
                         }
                     }
                 }
@@ -104,17 +117,17 @@
             --color-primary-50: #f5f3ff;
         }
         :root[data-accent="slate"] {
-            --color-primary-950: #0f172a;
-            --color-primary-900: #1e293b;
-            --color-primary-800: #334155;
-            --color-primary-700: #475569;
-            --color-primary-600: #576b82;
-            --color-primary-500: #64748b;
-            --color-primary-400: #94a3b8;
-            --color-primary-300: #cbd5e1;
-            --color-primary-200: #e2e8f0;
-            --color-primary-100: #f1f5f9;
-            --color-primary-50: #f8fafc;
+            --color-primary-950: #09090b; /* Zinc 950 - hitam */
+            --color-primary-900: #18181b; /* Zinc 900 */
+            --color-primary-800: #27272a; /* Zinc 800 */
+            --color-primary-700: #3f3f46; /* Zinc 700 */
+            --color-primary-600: #52525b;
+            --color-primary-500: #71717a;
+            --color-primary-400: #a1a1aa;
+            --color-primary-300: #d4d4d8;
+            --color-primary-200: #e4e4e7;
+            --color-primary-100: #f4f4f5;
+            --color-primary-50: #fafafa;
         }
         :root[data-accent="crimson"] {
             --color-primary-950: #4c0519;
@@ -150,90 +163,353 @@
             padding: 1rem !important;
         }
 
-        /* Global Overrides for Dark Mode */
-        .dark body {
+        /* --- GLOBAL THEME OVERRIDES --- */
+
+        /* 1. Theme: Hijau & Putih (emerald) */
+        :root[data-accent="emerald"] body,
+        :root[data-accent="emerald"] .bg-slate-50 {
+            background-color: #f0fdf4 !important;
+            color: #0f2922 !important;
+        }
+        :root[data-accent="emerald"] .bg-white {
+            background-color: #ffffff !important;
+            color: #0f2922 !important;
+        }
+        :root[data-accent="emerald"] .border-slate-100,
+        :root[data-accent="emerald"] .border-slate-200,
+        :root[data-accent="emerald"] .border-slate-300,
+        :root[data-accent="emerald"] .border-slate-200\/60,
+        :root[data-accent="emerald"] .divide-slate-100 {
+            border-color: #d1fae5 !important;
+        }
+        :root[data-accent="emerald"] .text-slate-800,
+        :root[data-accent="emerald"] .text-slate-900,
+        :root[data-accent="emerald"] .text-slate-700 {
+            color: #0f2922 !important;
+        }
+        :root[data-accent="emerald"] .text-slate-600 {
+            color: #1e3f35 !important;
+        }
+        :root[data-accent="emerald"] .text-slate-500 {
+            color: #3b5f54 !important;
+        }
+        :root[data-accent="emerald"] header {
+            background-color: #ffffff !important;
+            border-bottom-color: #d1fae5 !important;
+        }
+        :root[data-accent="emerald"] header h2 {
+            color: #064e3b !important;
+        }
+        :root[data-accent="emerald"] input,
+        :root[data-accent="emerald"] select,
+        :root[data-accent="emerald"] textarea {
+            background-color: #ffffff !important;
+            color: #0f2922 !important;
+            border-color: #a7f3d0 !important;
+        }
+
+        /* 1.1 Theme: Hijau & Putih in Dark Mode */
+        .dark:root[data-accent="emerald"] body,
+        .dark:root[data-accent="emerald"] .bg-slate-50 {
+            background-color: #022c22 !important;
+            color: #e6f4ea !important;
+        }
+        .dark:root[data-accent="emerald"] .bg-white {
+            background-color: #064e3b !important;
+            color: #e6f4ea !important;
+        }
+        .dark:root[data-accent="emerald"] .border-slate-100,
+        .dark:root[data-accent="emerald"] .border-slate-200,
+        .dark:root[data-accent="emerald"] .border-slate-300,
+        .dark:root[data-accent="emerald"] .border-slate-200\/60,
+        .dark:root[data-accent="emerald"] .divide-slate-100 {
+            border-color: #065f46 !important;
+        }
+        .dark:root[data-accent="emerald"] .text-slate-800,
+        .dark:root[data-accent="emerald"] .text-slate-900,
+        .dark:root[data-accent="emerald"] .text-slate-700 {
+            color: #ffffff !important;
+        }
+        .dark:root[data-accent="emerald"] .text-slate-600 {
+            color: #a7f3d0 !important;
+        }
+        .dark:root[data-accent="emerald"] .text-slate-500 {
+            color: #6ee7b7 !important;
+        }
+        .dark:root[data-accent="emerald"] header {
+            background-color: #064e3b !important;
+            border-bottom-color: #065f46 !important;
+        }
+        .dark:root[data-accent="emerald"] header h2 {
+            color: #ffffff !important;
+        }
+        .dark:root[data-accent="emerald"] input,
+        .dark:root[data-accent="emerald"] select,
+        .dark:root[data-accent="emerald"] textarea {
+            background-color: #022c22 !important;
+            color: #ffffff !important;
+            border-color: #065f46 !important;
+        }
+
+        /* 2. Theme: Biru & Putih (indigo) */
+        :root[data-accent="indigo"] body,
+        :root[data-accent="indigo"] .bg-slate-50 {
+            background-color: #eff6ff !important;
+            color: #1e293b !important;
+        }
+        :root[data-accent="indigo"] .bg-white {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+        }
+        :root[data-accent="indigo"] .border-slate-100,
+        :root[data-accent="indigo"] .border-slate-200,
+        :root[data-accent="indigo"] .border-slate-300,
+        :root[data-accent="indigo"] .border-slate-200\/60,
+        :root[data-accent="indigo"] .divide-slate-100 {
+            border-color: #dbeafe !important;
+        }
+        :root[data-accent="indigo"] .text-slate-800,
+        :root[data-accent="indigo"] .text-slate-900,
+        :root[data-accent="indigo"] .text-slate-700 {
+            color: #1e293b !important;
+        }
+        :root[data-accent="indigo"] .text-slate-600 {
+            color: #334155 !important;
+        }
+        :root[data-accent="indigo"] .text-slate-500 {
+            color: #475569 !important;
+        }
+        :root[data-accent="indigo"] header {
+            background-color: #ffffff !important;
+            border-bottom-color: #dbeafe !important;
+        }
+        :root[data-accent="indigo"] header h2 {
+            color: #1e3a8a !important;
+        }
+        :root[data-accent="indigo"] input,
+        :root[data-accent="indigo"] select,
+        :root[data-accent="indigo"] textarea {
+            background-color: #ffffff !important;
+            color: #1e293b !important;
+            border-color: #c7d2fe !important;
+        }
+
+        /* 2.1 Theme: Biru & Putih in Dark Mode */
+        .dark:root[data-accent="indigo"] body,
+        .dark:root[data-accent="indigo"] .bg-slate-50 {
             background-color: #0f172a !important;
             color: #cbd5e1 !important;
         }
-        .dark .bg-white {
+        .dark:root[data-accent="indigo"] .bg-white {
             background-color: #1e293b !important;
+            color: #cbd5e1 !important;
         }
-        .dark .border-slate-100,
-        .dark .border-slate-200,
-        .dark .border-slate-300,
-        .dark .border-slate-200\/60,
-        .dark .divide-slate-100 {
+        .dark:root[data-accent="indigo"] .border-slate-100,
+        .dark:root[data-accent="indigo"] .border-slate-200,
+        .dark:root[data-accent="indigo"] .border-slate-300,
+        .dark:root[data-accent="indigo"] .border-slate-200\/60,
+        .dark:root[data-accent="indigo"] .divide-slate-100 {
             border-color: #334155 !important;
         }
-        .dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
-            border-color: #334155 !important;
+        .dark:root[data-accent="indigo"] .text-slate-800,
+        .dark:root[data-accent="indigo"] .text-slate-900,
+        .dark:root[data-accent="indigo"] .text-slate-700 {
+            color: #ffffff !important;
         }
-        .dark .text-slate-800,
-        .dark .text-slate-900 {
-            color: #f8fafc !important;
-        }
-        .dark .text-slate-700 {
+        .dark:root[data-accent="indigo"] .text-slate-600 {
             color: #e2e8f0 !important;
         }
-        .dark .text-slate-600 {
-            color: #cbd5e1 !important;
-        }
-        .dark .text-slate-500 {
+        .dark:root[data-accent="indigo"] .text-slate-500 {
             color: #94a3b8 !important;
         }
-        .dark .text-slate-400 {
-            color: #64748b !important;
+        .dark:root[data-accent="indigo"] header {
+            background-color: #1e293b !important;
+            border-bottom-color: #334155 !important;
         }
-        .dark .bg-slate-50 {
-            background-color: #0f172a !important;
+        .dark:root[data-accent="indigo"] header h2 {
+            color: #ffffff !important;
         }
-        .dark .bg-slate-100 {
-            background-color: #334155 !important;
-        }
-        .dark .hover\:bg-slate-50\/50:hover, 
-        .dark .hover\:bg-slate-50:hover,
-        .dark .hover\:bg-slate-100:hover {
-            background-color: #334155 !important;
-        }
-        .dark input, .dark select, .dark textarea {
+        .dark:root[data-accent="indigo"] input,
+        .dark:root[data-accent="indigo"] select,
+        .dark:root[data-accent="indigo"] textarea {
             background-color: #0f172a !important;
             color: #ffffff !important;
             border-color: #334155 !important;
         }
-        .dark input::placeholder {
-            color: #475569 !important;
+
+        /* 3. Theme: Abu-abu & Hitam (slate) - Sleek Dark Monochrome */
+        :root[data-accent="slate"] body,
+        :root[data-accent="slate"] .bg-slate-50 {
+            background-color: #09090b !important; /* Zinc 950 - hitam */
+            color: #f4f4f5 !important; /* zinc 100 - abu terang */
         }
-        .dark .bg-blue-50 {
-            background-color: #1e3a8a40 !important;
-            color: #93c5fd !important;
+        :root[data-accent="slate"] .bg-white {
+            background-color: #18181b !important; /* Zinc 900 - abu gelap */
+            color: #f4f4f5 !important;
         }
-        .dark .bg-pink-50 {
-            background-color: #83184340 !important;
-            color: #fbcfe8 !important;
+        :root[data-accent="slate"] .border-slate-100,
+        :root[data-accent="slate"] .border-slate-200,
+        :root[data-accent="slate"] .border-slate-300,
+        :root[data-accent="slate"] .border-slate-200\/60,
+        :root[data-accent="slate"] .divide-slate-100 {
+            border-color: #27272a !important; /* zinc-800 border */
         }
-        .dark .bg-emerald-50 {
-            background-color: #064e3b40 !important;
-            color: #6ee7b7 !important;
+        :root[data-accent="slate"] .text-slate-800,
+        :root[data-accent="slate"] .text-slate-900,
+        :root[data-accent="slate"] .text-slate-700 {
+            color: #ffffff !important;
         }
-        .dark .bg-red-50 {
-            background-color: #7f1d1d40 !important;
+        :root[data-accent="slate"] .text-slate-600 {
+            color: #d4d4d8 !important; /* zinc 300 */
+        }
+        :root[data-accent="slate"] .text-slate-500 {
+            color: #a1a1aa !important; /* zinc 400 */
+        }
+        :root[data-accent="slate"] header {
+            background-color: #18181b !important;
+            border-bottom-color: #27272a !important;
+            color: #ffffff !important;
+        }
+        :root[data-accent="slate"] header h2 {
+            color: #ffffff !important;
+        }
+        :root[data-accent="slate"] input,
+        :root[data-accent="slate"] select,
+        :root[data-accent="slate"] textarea {
+            background-color: #27272a !important;
+            color: #ffffff !important;
+            border-color: #3f3f46 !important;
+        }
+        :root[data-accent="slate"] input:focus,
+        :root[data-accent="slate"] select:focus,
+        :root[data-accent="slate"] textarea:focus {
+            border-color: #71717a !important;
+        }
+
+        /* 3.1 Theme: Abu-abu & Hitam in Dark Mode (consistent dark) */
+        .dark:root[data-accent="slate"] body,
+        .dark:root[data-accent="slate"] .bg-slate-50 {
+            background-color: #09090b !important;
+            color: #f4f4f5 !important;
+        }
+        .dark:root[data-accent="slate"] .bg-white {
+            background-color: #18181b !important;
+            color: #f4f4f5 !important;
+        }
+        .dark:root[data-accent="slate"] .border-slate-100,
+        .dark:root[data-accent="slate"] .border-slate-200,
+        .dark:root[data-accent="slate"] .border-slate-300,
+        .dark:root[data-accent="slate"] .border-slate-200\/60,
+        .dark:root[data-accent="slate"] .divide-slate-100 {
+            border-color: #27272a !important;
+        }
+        .dark:root[data-accent="slate"] .text-slate-800,
+        .dark:root[data-accent="slate"] .text-slate-900,
+        .dark:root[data-accent="slate"] .text-slate-700 {
+            color: #ffffff !important;
+        }
+        .dark:root[data-accent="slate"] .text-slate-600 {
+            color: #d4d4d8 !important;
+        }
+        .dark:root[data-accent="slate"] .text-slate-500 {
+            color: #a1a1aa !important;
+        }
+        .dark:root[data-accent="slate"] header {
+            background-color: #18181b !important;
+            border-bottom-color: #27272a !important;
+        }
+        .dark:root[data-accent="slate"] input,
+        .dark:root[data-accent="slate"] select,
+        .dark:root[data-accent="slate"] textarea {
+            background-color: #27272a !important;
+            color: #ffffff !important;
+            border-color: #3f3f46 !important;
+        }
+
+        /* 4. Theme: Merah & Putih (crimson) */
+        :root[data-accent="crimson"] body,
+        :root[data-accent="crimson"] .bg-slate-50 {
+            background-color: #fff5f5 !important;
+            color: #4c0519 !important;
+        }
+        :root[data-accent="crimson"] .bg-white {
+            background-color: #ffffff !important;
+            color: #4c0519 !important;
+        }
+        :root[data-accent="crimson"] .border-slate-100,
+        :root[data-accent="crimson"] .border-slate-200,
+        :root[data-accent="crimson"] .border-slate-300,
+        :root[data-accent="crimson"] .border-slate-200\/60,
+        :root[data-accent="crimson"] .divide-slate-100 {
+            border-color: #fee2e2 !important;
+        }
+        :root[data-accent="crimson"] .text-slate-800,
+        :root[data-accent="crimson"] .text-slate-900,
+        :root[data-accent="crimson"] .text-slate-700 {
+            color: #4c0519 !important;
+        }
+        :root[data-accent="crimson"] .text-slate-600 {
+            color: #881337 !important;
+        }
+        :root[data-accent="crimson"] .text-slate-500 {
+            color: #9f1239 !important;
+        }
+        :root[data-accent="crimson"] header {
+            background-color: #ffffff !important;
+            border-bottom-color: #fee2e2 !important;
+        }
+        :root[data-accent="crimson"] header h2 {
+            color: #be123c !important;
+        }
+        :root[data-accent="crimson"] input,
+        :root[data-accent="crimson"] select,
+        :root[data-accent="crimson"] textarea {
+            background-color: #ffffff !important;
+            color: #4c0519 !important;
+            border-color: #fecaca !important;
+        }
+
+        /* 4.1 Theme: Merah & Putih in Dark Mode */
+        .dark:root[data-accent="crimson"] body,
+        .dark:root[data-accent="crimson"] .bg-slate-50 {
+            background-color: #4c0519 !important;
+            color: #ffe4e6 !important;
+        }
+        .dark:root[data-accent="crimson"] .bg-white {
+            background-color: #881337 !important;
+            color: #ffe4e6 !important;
+        }
+        .dark:root[data-accent="crimson"] .border-slate-100,
+        .dark:root[data-accent="crimson"] .border-slate-200,
+        .dark:root[data-accent="crimson"] .border-slate-300,
+        .dark:root[data-accent="crimson"] .border-slate-200\/60,
+        .dark:root[data-accent="crimson"] .divide-slate-100 {
+            border-color: #9f1239 !important;
+        }
+        .dark:root[data-accent="crimson"] .text-slate-800,
+        .dark:root[data-accent="crimson"] .text-slate-900,
+        .dark:root[data-accent="crimson"] .text-slate-700 {
+            color: #ffffff !important;
+        }
+        .dark:root[data-accent="crimson"] .text-slate-600 {
             color: #fca5a5 !important;
         }
-        .dark .bg-cyan-50 {
-            background-color: #164e6340 !important;
-            color: #67e8f9 !important;
+        .dark:root[data-accent="crimson"] .text-slate-500 {
+            color: #fecaca !important;
         }
-        .dark .bg-amber-50 {
-            background-color: #78350f40 !important;
-            color: #fcd34d !important;
+        .dark:root[data-accent="crimson"] header {
+            background-color: #881337 !important;
+            border-bottom-color: #9f1239 !important;
         }
-        .dark .bg-rose-50 {
-            background-color: #88133740 !important;
-            color: #fda4af !important;
+        .dark:root[data-accent="crimson"] header h2 {
+            color: #ffffff !important;
         }
-        .dark .text-emerald-700, 
-        .dark .text-emerald-800 {
-            color: var(--color-primary-400) !important;
+        .dark:root[data-accent="crimson"] input,
+        .dark:root[data-accent="crimson"] select,
+        .dark:root[data-accent="crimson"] textarea {
+            background-color: #4c0519 !important;
+            color: #ffffff !important;
+            border-color: #9f1239 !important;
         }
 
         /* Cegah animasi transisi saat memuat halaman */

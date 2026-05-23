@@ -30,7 +30,7 @@
         </form>
 
         <!-- Buat Surat Baru -->
-        <a href="{{ route('surat.create') }}" class="px-5 py-2.5 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-800/10">
+        <a href="{{ route('surat.create') }}" class="px-5 py-2.5 bg-green-700 hover:bg-green-600 text-white rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2 shadow-lg shadow-green-700/10">
             <i class="fa-solid fa-file-signature"></i> Buat Surat Baru
         </a>
     </div>

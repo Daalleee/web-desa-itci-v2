@@ -26,7 +26,7 @@
         </form>
 
         <!-- Tambah Warga -->
-        <a href="{{ route('warga.create') }}" class="px-5 py-2.5 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-800/10">
+        <a href="{{ route('warga.create') }}" class="px-5 py-2.5 bg-green-700 hover:bg-green-600 text-white rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2 shadow-lg shadow-green-700/10">
             <i class="fa-solid fa-user-plus"></i> Tambah Warga
         </a>
     </div>
@@ -152,7 +152,7 @@
                                 <a href="{{ route('warga.show', $w->id) }}" class="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-l-lg border border-slate-200 text-xs font-semibold transition" title="Detail">
                                     <i class="fa-solid fa-eye"></i> Detail
                                 </a>
-                                <a href="{{ route('warga.edit', $w->id) }}" class="px-3 py-1.5 bg-white hover:bg-slate-50 text-emerald-700 border-y border-r border-slate-200 text-xs font-semibold transition" title="Edit">
+                                <a href="{{ route('warga.edit', $w->id) }}" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border-y border-r border-slate-200 text-xs font-semibold transition" title="Edit">
                                     <i class="fa-solid fa-pen"></i> Edit
                                 </a>
                                 <form action="{{ route('warga.destroy', $w->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data warga ini (Soft Delete)?')">

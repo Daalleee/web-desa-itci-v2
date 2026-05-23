@@ -79,32 +79,44 @@
 
              <!-- 2. Warna Aksen -->
              <div class="space-y-3">
-                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Warna Aksen Sistem</label>
-                 <p class="text-xs text-slate-500 dark:text-slate-400">Pilih warna primer untuk sidebar, tombol, dan ornamen visual website.</p>
-                 <div class="grid grid-cols-4 gap-3 pt-2">
+                 <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Skema Warna & Tema Dinamis</label>
+                 <p class="text-xs text-slate-500 dark:text-slate-400">Pilih skema warna yang mengubah latar belakang, panel, tombol, dan seluruh antarmuka secara serempak.</p>
+                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
                      <button @click="updateAccent('emerald')" 
                              :class="accent === 'emerald' ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 font-semibold ring-2 ring-emerald-500/20' : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'"
-                             class="flex flex-col items-center justify-center p-2.5 rounded-xl border text-xs transition-all duration-150 bg-white dark:bg-slate-800">
-                         <span class="w-4 h-4 rounded-full bg-emerald-500 mb-1.5"></span>
-                         <span>Emerald</span>
+                             class="flex flex-col items-center justify-center p-3 rounded-xl border text-xs transition-all duration-150 bg-white dark:bg-slate-800 shadow-sm">
+                         <div class="flex gap-1 mb-2">
+                             <span class="w-4 h-4 rounded-full bg-emerald-500 border border-white"></span>
+                             <span class="w-4 h-4 rounded-full bg-white border border-slate-200"></span>
+                         </div>
+                         <span class="font-medium">Hijau & Putih</span>
                      </button>
                      <button @click="updateAccent('indigo')" 
                              :class="accent === 'indigo' ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/20 text-indigo-700 font-semibold ring-2 ring-indigo-500/20' : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'"
-                             class="flex flex-col items-center justify-center p-2.5 rounded-xl border text-xs transition-all duration-150 bg-white dark:bg-slate-800">
-                         <span class="w-4 h-4 rounded-full bg-indigo-500 mb-1.5"></span>
-                         <span>Indigo</span>
+                             class="flex flex-col items-center justify-center p-3 rounded-xl border text-xs transition-all duration-150 bg-white dark:bg-slate-800 shadow-sm">
+                         <div class="flex gap-1 mb-2">
+                             <span class="w-4 h-4 rounded-full bg-blue-500 border border-white"></span>
+                             <span class="w-4 h-4 rounded-full bg-white border border-slate-200"></span>
+                         </div>
+                         <span class="font-medium">Biru & Putih</span>
                      </button>
                      <button @click="updateAccent('slate')" 
                              :class="accent === 'slate' ? 'border-slate-500 bg-slate-100 dark:bg-slate-950/20 text-slate-700 font-semibold ring-2 ring-slate-500/20' : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'"
-                             class="flex flex-col items-center justify-center p-2.5 rounded-xl border text-xs transition-all duration-150 bg-white dark:bg-slate-800">
-                         <span class="w-4 h-4 rounded-full bg-slate-500 mb-1.5"></span>
-                         <span>Slate</span>
+                             class="flex flex-col items-center justify-center p-3 rounded-xl border text-xs transition-all duration-150 bg-white dark:bg-slate-800 shadow-sm">
+                         <div class="flex gap-1 mb-2">
+                             <span class="w-4 h-4 rounded-full bg-slate-600 border border-white"></span>
+                             <span class="w-4 h-4 rounded-full bg-zinc-950 border border-slate-800"></span>
+                         </div>
+                         <span class="font-medium">Abu-abu & Hitam</span>
                      </button>
                      <button @click="updateAccent('crimson')" 
                              :class="accent === 'crimson' ? 'border-rose-500 bg-rose-50 dark:bg-rose-950/20 text-rose-700 font-semibold ring-2 ring-rose-500/20' : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700'"
-                             class="flex flex-col items-center justify-center p-2.5 rounded-xl border text-xs transition-all duration-150 bg-white dark:bg-slate-800">
-                         <span class="w-4 h-4 rounded-full bg-rose-500 mb-1.5"></span>
-                         <span>Crimson</span>
+                             class="flex flex-col items-center justify-center p-3 rounded-xl border text-xs transition-all duration-150 bg-white dark:bg-slate-800 shadow-sm">
+                         <div class="flex gap-1 mb-2">
+                             <span class="w-4 h-4 rounded-full bg-rose-500 border border-white"></span>
+                             <span class="w-4 h-4 rounded-full bg-white border border-slate-200"></span>
+                         </div>
+                         <span class="font-medium">Merah & Putih</span>
                      </button>
                  </div>
              </div>
